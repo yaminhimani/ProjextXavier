@@ -1,7 +1,8 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>ProjectXavier</title>
+    <title>CustomerServiceChat</title>
+    <%= favicon_link_tag %>
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
 
@@ -11,9 +12,9 @@
 
    <div class="ui small inverted menu">
       <div class="ui container">
-        <%= render 'layouts/navigation' %>
+       <%= render 'layouts/navigation' %>  
     </div>
-    
+    <%- # The render line of code is used to render the partial -%>
     <div class="ui container">
       <%= yield %>
     </div>

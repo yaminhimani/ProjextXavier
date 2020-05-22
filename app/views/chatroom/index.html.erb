@@ -4,40 +4,16 @@
 </h2>
 <%-# favicon and message which is right above the chat  -%>
 
-
 <div class="ui two column grid">
   <div class="twelve wide column">
     <div class="ui fluid raised card chatbox">
       <div class="content">
-      <div class="ui feed">
-          <div class="event">
-            <div class="content">
-              <div class="summary">
-              </div>
-            </div>
-          </div>
-          <div class="event">
-            <div class="content">
-              <div class="summary">
-              </div>
-            </div>
-          </div>
-          <div class="event">
-            <div class="content">
-              <div class="summary">
-              </div>
-            </div>
-          </div>
-          <div class="event">
-            <div class="content">
-              <div class="summary">
-              </div>
-            </div>
-          </div>
+        <div class="ui feed">
+         <%= render @messages %>
         </div>
       </div>
-       <div class="extra content">
-        <form class="ui reply form">
+      <div class="extra content">
+      <form class="ui reply form">
           <div class="field">
             <div class="ui fluid icon input">
               <input type="text" placeholder="Enter a message...">
@@ -48,7 +24,9 @@
       </div>
     </div>
   </div>
-<%-# Shows the chat messages  -%>
+
+
+<%-# Shows the chat messages uses messages partial  -%>
 
 <div class="four wide column">
     <div class="ui fluid raised card chatbox">

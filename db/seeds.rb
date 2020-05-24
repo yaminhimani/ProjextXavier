@@ -10,3 +10,4 @@ User.create(username: "Admin-Tom", password: "password")
 User.create(username: "Admin-Brian", password: "password")
 User.create(username: "Admin-Yamin", password: "password")
 User.create(username: "Admin-Wong", password: "password")
+#admin accounts for app

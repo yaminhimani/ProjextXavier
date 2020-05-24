@@ -18,4 +18,13 @@
 //= require_tree .
 
 $(document).on('turbolinks:load',function() {
-  $('.ui.dropdown').dropdown(); })   //want turbolinks to load before our java script code for the nav bar
+  $('.ui.dropdown').dropdown(); 
+  $('.message .close').on('click', function() {
+  $(this).closest('.message').transition('fade');
+});
+
+
+
+})   
+
+

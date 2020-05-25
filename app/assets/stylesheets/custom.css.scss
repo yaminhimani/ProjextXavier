@@ -3,3 +3,8 @@
 .chatbox{
   height: 450px
 } //sets the height for the chatbox and the box that tells you who you are chatting with 
+
+#messages {
+  height: 15em;
+  overflow: auto;
+} //scroll bar for chatbox

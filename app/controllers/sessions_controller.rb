@@ -6,6 +6,14 @@ before_action :logged_in_redirect, only: [:new, :create]
 
   end
 
+  def guest #the method to log in as a guest 
+    user = User.find(9)
+    session[:user_id] = user.id
+    flash[:sucess]= "You are now chatting as a guest"
+    redirect_to root_path 
+  end 
+
+
 def create
   user = User.find_by(username: params[:session][:username]) #Try to find the username of on the account 
   if user && user.authenticate(params[:session][:password])   #check to see if there is that user on file and he

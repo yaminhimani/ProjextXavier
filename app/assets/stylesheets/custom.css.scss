@@ -8,3 +8,10 @@
   height: 15em;
   overflow: auto;
 } //scroll bar for chatbox
+
+
+.input{
+  button{
+    display:none;
+  }
+}//hides the button to send a chat since we don't need it 

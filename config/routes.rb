@@ -7,6 +7,10 @@ Rails.application.routes.draw do
   post 'message', to: 'messages#create'
   get 'registration', to: 'registration#new'
   post 'registration', to: 'registration#new'
+  get 'newAccount', to: 'registration#index'
+  post 'newAccount', to: 'registration#newAccount'
+  resources :registration
+
 
   mount ActionCable.server, at: '/cable'
 end

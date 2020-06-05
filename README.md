@@ -1,24 +1,27 @@
 # README
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+This is a customer service application built using rails 5
 
-Things you may want to cover:
+To Run: 
 
-* Ruby version
+first run
 
-* System dependencies
+bin/rails db:migrate RAILS_ENV=development
 
-* Configuration
+then run
 
-* Database creation
+rails db:seed
 
-* Database initialization
+then run 
 
-* How to run the test suite
+rails s
 
-* Services (job queues, cache servers, search engines, etc.)
 
-* Deployment instructions
+To see the app running - Open localhost:3000 in two tabs one in your normal browser one in incognito
 
-* ...
+
+
+
+
+
+

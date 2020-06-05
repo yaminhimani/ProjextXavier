@@ -6,8 +6,8 @@
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
 
-User.create(username: "Admin-Tommy", password: "password")
-User.create(username: "Admin-Brian", password: "password")
-User.create(username: "Admin-Yamin", password: "password")
-User.create(username: "Admin-Wong", password: "password")
+User.create(username: "Admin-Tommy", password: "password", user_type: 'Admin')
+User.create(username: "Admin-Brian", password: "password", user_type: 'Admin')
+User.create(username: "Admin-Yamin", password: "password", user_type: 'Admin')
+User.create(username: "Admin-Wong", password: "password", user_type: 'Admin')
 #admin accounts for app

@@ -1,14 +1,14 @@
 class SessionsController < ApplicationController
 
-before_action :logged_in_redirect, only: [:new, :create]
+  before_action :logged_in_redirect, only: [:new, :create]
 
   def new
 
   end
 
   def guest #the method to log in as a guest 
-    user = User.find(9)
-    session[:user_id] = user.id
+    guest = User.find_or_create_guest(params, request)
+    session[:user_id] = guest.id
     flash[:sucess]= "You are now chatting as a guest"
     redirect_to root_path 
   end 

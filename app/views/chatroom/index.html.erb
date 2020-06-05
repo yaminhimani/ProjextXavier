@@ -1,34 +1,139 @@
-<h2 class="ui center aligned icon header">
+<h2 id="section_how_we_can_help_you" class="ui center aligned icon header" style="display: none;">
   <i class="circular orange comment alternate icon"></i>
   How can we help you today? 
 </h2>
 <%-# favicon and message which is right above the chat  -%>
 
 
-
-  <div class="twelve wide column">
-    <div class="ui fluid raised card chatbox" >
-         <div class="content" id="messages">
-        <div class="ui feed" id="message-container">
-         <%= render @messages %>
+  <div id="section_messages" class="twelve wide column" style="display:none;">
+    <div class="ui fluid demo tabular menu">
+     <% if @logged_user.user_type == "Guest" or @logged_user.user_type == "User" then %>
+      <% for @admin in @admins do %>
+        <a id="admin_<%= @admin.id%>" class="item">
+          <%= @admin.username.to_s%>
+        </a>
+      <% end %>
+     <% elsif @logged_user.user_type == "Admin" then %>
+       <% for @guest_or_user in @guests_or_users do %>
+        <a id="guest_or_user_<%= @guest_or_user.id%>" class="item">
+          <%= @guest_or_user.username.to_s%>
+        </a>
+      <% end %>
+     <% end %>
+    </div>
+      <div class="ui fluid raised card chatbox" >
+          <div class="content" id="messages">
+          <div class="ui feed" id="message-container">
+          
+          </div>
         </div>
-      </div>
-      <div class="extra content">
-        <%= form_for(@message, html: {class: "ui reply form", role: "form"}, url: message_path, remote: true) do |f| %>
-            <div class="field">
-              <div class="ui fluid icon input">
-              <%= f.text_field :body%>
-               <%= f.button '<i class="bordered inverted orange edit icon"></i>'.html_safe %>
+        <div class="extra content">
+          <%= form_for(@message, html: {class: "ui reply form", role: "form", autocomplete: 'off'}, url: message_path, remote: true) do |f| %>
+              <div class="field">
+                <div class="ui fluid icon input">
+                <%= f.hidden_field :sender_id, :value => @logged_user.id%>
+                <%= f.hidden_field :receiver_id%>
+                <%= f.text_field :body%>
+                <%= f.button '<i class="bordered inverted orange edit icon"></i>'.html_safe %>
+                <i class="bordered inverted orange edit icon"></i>
+                </div>
               </div>
-            </div>
-        <%end%>
-      </div>
+          <%end%>
+        </div>
+      </div>    
+  </div>
+  <div id="section_no_messages" class="twelve wide column" style="margin-top:10px;display:none;">
+    <div class="ui fluid raised card" style="padding:20px;">
+      <h3 id="no_messages_found_message">All admins are busy at the moment. You will be contacted shortly.</h3>
     </div>
   </div>
+  
+  <div style="clear:both;"></div>
+  <% if @logged_user.user_type == "Admin" then %>
+    <h2><%= @clients_without_messages.size %> clients that require assistance</h2>
+  <% if @clients_without_messages.size > 0 then %>
+   <table class="ui celled padded table">
+    <thead>
+      <th>Client</th>
+      <th>Send message</th>
+    </tr></thead>
+    <tbody>
+    <% for @client_without_messages in @clients_without_messages do %>
+      <tr>
+          <%= form_for(Message.new, html: {class: "ui reply form", role: "form", autocomplete: 'off'}, url: message_path, remote: true) do |f| %>
+                    <td class="single line"><%= @client_without_messages.username.to_s %></td>
+                    <%= f.hidden_field :sender_id, :value => @logged_user.id%>
+                    <%= f.hidden_field :receiver_id, :value => @client_without_messages.id%>
+                    <%= f.hidden_field :body, :value => "Hi, how can I help you?"%>
+                    <td><%= f.submit "Send the first message" %></td>
+            <%end%>
+          </tr>   
+      <% end %>      
+        </tbody>
+    </table>
+    <% end %> 
+   <% end %>
+  
+      
+    
  
-
-
 
 <%-# Shows the chat messages uses messages partial  -%>
 
+<input id="messages_size" type="hidden" value="<%= @has_any_messages%>" />
+
+  <script>
+  
+  function initial_load_correct_ui_sections(){
+    //alert("<%= @messages.size.to_s%>");
+    var messages_size = "<%= @has_received_messages%>";
+    var logged_user_user_type = "<%= @logged_user.user_type.to_s%>";
+   //  alert(messages_size);
+//     alert(logged_user_user_type);
+    var not_admin_present = false;
+    if(logged_user_user_type == "User" || logged_user_user_type == "Guest"){
+      not_admin_present = true;
+    }
+    if(messages_size == "false" && not_admin_present == true){
+     $("#section_no_messages").show();
+    }
+    else 
+     {
+       var has_any_messages = "<%= @has_any_messages%>";
+       //alert(has_any_messages);
+        if(String(has_any_messages) == "false" && not_admin_present == false){
+          $("#no_messages_found_message").text("No messages found.");
+          $("#section_no_messages").show();
+        }
+        else{
+          $("#section_how_we_can_help_you").show();
+          $("#section_messages").show();
+        }
+     }
+  }  
+  
+  function load_messages(remote_id){
+    var logged_user_id = "<%= @logged_user.id.to_s%>";
+    $("#message-container").load("/messages/<%= @logged_user.id.to_s%>/" + String(remote_id), function(){
+      
+    })
+  }
+  
+  initial_load_correct_ui_sections();
+  
+   //Activate first tab
+   $(".tabular>.item").first().addClass('active');
+   var active_tab_id = $(".tabular>.item").first().attr('id').replace("admin_", "").replace("guest_or_user_", "");
+   load_messages(active_tab_id);
+   
+   $("#message_receiver_id").val(active_tab_id);
+   $(".tabular>.item").click(function(){
+     $(".tabular>.item").removeClass('active');
+     $(this).addClass('active'); 
+     var id = $(this).attr('id');
+     id = id.replace("admin_", "").replace("guest_or_user_", "")
+     $("#message_receiver_id").val(id);
+     load_messages(id)
+   });   
+</script>
 

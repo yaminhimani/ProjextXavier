@@ -53,9 +53,10 @@
 <div class="ui placeholder segment">
     <div class="meta">
       <center>
-      <h1> No Account No Problem! </h1
+      <h1> No Account No Problem! </h1>
       </center>
-            <%= button_to "Chat as a guest", login_guest_path , method: :guest , class: "ui orange submit button" %>
+            <!-- <%= button_to "Chat as a guest", login_guest_path , method: :guest , class: "ui orange submit button" %>-->
+            <%= link_to "Chat as a guest", login_guest_path, :class => 'ui orange submit button' %>
       </div>
     </div>
 

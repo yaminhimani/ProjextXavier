@@ -8,8 +8,6 @@ class RegistrationController < ApplicationController
   def index
   end 
 
-  
-
   def newAccount
     @user = User.new(user_params)
     if @user.save
